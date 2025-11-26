@@ -1,0 +1,114 @@
+name: default  # defines name of generated code
+
+## mission parameters
+ref:
+    yaw_mode: align  # allowed modes: ref, align, current, zero
+    align_yaw_offset: 0  # yaw offset in align mode [rad]
+    stop_and_turn:  # maximum yaw error above which the reference velocity is set to 0 to enable stop-and-turn behavior
+        enable: False
+        dang_min: 1  # angle threshold to trigger stop and turn [rad]
+    yaw_align_dmin: 0.1  # minimum distance under which yaw alignment is disabled [m]
+    vref: 3  # norm of reference velocity [m/s]
+    wzref: 1  # norm of reference yawrate [rad/s]
+    zref: 2  # desired hovering z for takeoff [m]
+
+## mission flags
+flags:
+    simulation: True  # sim or hardware experiment
+    enable_sdf: True  # enable collision prediction
+    sdf_cost: False  # use sdf in cost
+    sdf_constraint: True  # use sdf in constraints
+    vfov_constraint: True  # enable vertical FoV constraint
+    recursive_feasibility: False  # enable recursive feasibility constraints
+    stability: False  # enable stability terminal cost if rec_feas is enabled
+
+## nn parameters
+nn:
+    size_latent: 128
+    vae_device: cuda
+    sdf_device: cpu
+    vae_weights: vae.pt
+    sdf_weights: sdf_90_25664.pt
+
+## mpc parameters
+mpc:
+    model: att  # allowed models: acc, att, att_tau, rates, wrench, props
+    weights:
+        pos:    [0, 0, 5]  # px, py, pz
+        vel:    [3, 3, 3]  # vx, vy, vz
+        att:    [50, 50, 100]  # roll, pitch, yaw
+        rates:  [0, 0, 3]  # wx, wy, wz
+        acc:    0.05  # typically small value, used to penalize acc or aacc if applicable
+        slack_df:       [200, 50]  # slack weights (L1, L2) on df constraint
+        slack_fov:      [20, 0]  # slack weights (L1, L2) on fov constraint
+        slack_brake:    None  # slack weights (L1, L2) on braking dist constraint
+    N: 20  # nb of shooting nodes
+    T: 1.5  # lenght of horizon [s]
+    bound_margin: 0.15  # safety margin for collision constraint [m]
+    control_loop_time: 10  # minimum control period [ms]
+    uniform_dt: True  # dt is uniformly sampled as T/N, or nonuniform to have denser sampling for the first shooting_nodes
+    nb_short_nodes: 2  # number of shooting node with dense nonuniform sampling
+    lm_reg: 10  # Levenberg Marquardt regularization value
+    shift: 0  # column shifting of mpc matrices between optimization steps
+    fov_const_offset: 0.05  # x offset for computing fov constraint (since its singular at [0,0,0]) [cm]
+    fov_ratio: 0.9  # ratio of the actual fov value used as constraint
+    allow_dead_reck: False  # allow the mpc to dead reckon, ie don't update measurements if current position is unsafe
+    max_solver_fail: 3  # maximun number of successive failed qp solving steps before resetting node (-1 to disable)
+    p_idx:  # index of fields in the mpc parameter vector
+        flag: 0
+        W_p_Co: [1, 2, 3]
+        W_R_Co: [4, 5, 6, 7, 8, 9, 10, 11, 12]
+        q_d: [13, 14, 15, 16]
+        latent: 17
+    braking_dist:
+        degree: 4
+        coeff_file: braking_dist/gz/bdist_poly_deg4_3.npy
+    stability:
+        a_b_min: 6.32
+
+## robot
+robot:
+    mass: 1.46
+    inertia: [0.017, 0.018, 0.028]
+    alloc:  # used only for RPM control
+        cf: 0.02246
+        ct: 0.00020673
+        motors:
+            - [0.09, -0.09, -0.005, 0, 0, -1]  # x, y, z, alpha, beta, sign (-1 ccw, 1 cw)
+            - [-0.09, 0.09, -0.005, 0, 0, -1]
+            - [0.09, 0.09, -0.005, 0, 0, 1]
+            - [-0.09, -0.09, -0.005, 0, 0, 1]
+    sensor_extrinsics:
+        position: [0.180, 0, -0.025]
+        orientation: [0, 0, 0]
+    size:
+        xy: 0.22
+        z: 0.1125
+    limits:
+        roll: 0.7
+        pitch: 0.7
+        vx: 3
+        vy: 3
+        vz: 3
+        wx: 2
+        wy: 2
+        wz: 3
+        ax: 4
+        ay: 4
+        az: 3
+        gamma: 20  # maximum mass-normalized thrust
+        torques: 0  # maximum inertia-normalized body torques
+        wp: 25  # maximum propeller velocity
+
+## sensor
+sensor:
+    hfov: 0.7592
+    vfov: 0.4903
+    aspect_ratio: 1.778  # 16/9
+    dmax: 5
+    shape_imgs: [1, 270, 480]
+    is_depth: True
+    is_spherical: False
+    is_normalized: False
+    mm_resolution: 1000
+    dtype: float32
