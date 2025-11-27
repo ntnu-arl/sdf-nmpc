@@ -2,12 +2,11 @@
 
 This repository contains the framework using in our paper called: **Neural NMPC through Signed Distance Field Encoding for Collision Avoidance**, published in IJRR.
 
-TODO cite correct video
 **Watch our companion video here:**  
-[![Watch the video](https://img.youtube.com/vi/aELjlfwAjfk/0.jpg)](https://www.youtube.com/watch?v=aELjlfwAjfk)
+[![Watch the video](https://img.youtube.com/vi/OO2P4N0drGc/0.jpg)](https://www.youtube.com/watch?v=OO2P4N0drGc)
 
 
-## Table of Content
+## Table of Contents
 
 1. [Installation](#installation)
 1. [Repo architecture](#repo-architecture)
@@ -252,7 +251,7 @@ When using this work in your research, please cite the following publication:
 ```
 @ARTICLE{jacquet2025neural,
     AUTHOR={Jacquet, Martin and Harms, Marvin and Alexis, Kostas},
-    TITLE={Neural {NMPC} through Signed Distance Field Encoding for Collision Avoidance },
+    TITLE={Neural {NMPC} through Signed Distance Field Encoding for Collision Avoidance},
     JOURNAL={The International Journal of Robotics Research},
     YEAR={2025},
     DOI={10.1177/02783649251401223},
