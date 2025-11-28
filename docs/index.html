@@ -4,217 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <title>SDF-NMPC – Project Page</title>
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <meta name="viewport" c`ontent="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <meta name="description"
+        content="Neural NMPC for mapless, collision-free aerial robot navigation using learned SDFs from range sensing, validated in simulation and real-world forest experiments.">
+    <meta name="keywords" content="robotics, drones, signed distance field, collision avoidance, mpc, nmpc, sdf-nmpc">
+    <meta name="author" content="Martin Jacquet, Marvin Harms, Kostas Alexis">
+    <link rel="canonical" href="https://ntnu-arl.github.io/sdf-nmpc/">
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+    <meta property="og:title" content="Your Paper Title">
+    <meta property="og:description" content="Short description of the paper.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ntnu-arl.github.io/sdf-nmpc/">
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-                sans-serif;
-            background: #f5f5f7;
-            color: #111827;
-            line-height: 1.6;
-        }
-
-        .page {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 24px 16px 48px;
-        }
-
-        .card {
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 28px 24px 32px;
-            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
-        }
-
-        /* --- Header --- */
-        .paper-title {
-            font-size: clamp(1.8rem, 3vw + 1rem, 2.4rem);
-            font-weight: 700;
-            margin: 0 0 10px;
-            text-align: center;
-        }
-
-        .authors {
-            font-size: 0.98rem;
-            color: #4b5563;
-            text-align: center;
-            margin-bottom: 18px;
-        }
-
-        .institution {
-            font-size: 0.9rem;
-            color: #6b7280;
-            text-align: center;
-            margin-top: -6px;
-            margin-bottom: 18px;
-        }
-
-        /* --- Links --- */
-        .links {
-            text-align: center;
-            margin-bottom: 24px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-        }
-
-        .links a {
-            display: inline-block;
-            padding: 6px 14px;
-            font-size: 0.9rem;
-            border-radius: 999px;
-            border: 1px solid #d1d5db;
-            text-decoration: none;
-            color: #111827;
-            background: #f9fafb;
-            transition: background 0.15s ease, border-color 0.15s ease,
-                transform 0.1s ease;
-        }
-
-        .links .btn {
-            display: inline-flex;
-            align-items: center;
-            padding: 10px 20px;
-            font-size: 1rem;
-            border-radius: 999px;
-            border: 1px solid #d1d5db;
-            text-decoration: none;
-            color: #111827;
-            background: #ffffff;
-            gap: 10px;
-            transition: background 0.15s ease, border-color 0.15s ease,
-                transform 0.1s ease;
-        }
-
-        .links .btn:hover {
-            background: #e5f0ff;
-            border-color: #2563eb;
-            transform: translateY(-1px);
-        }
-
-        .btn-icon {
-            max-height: 22px;
-            width: auto;
-            display: block;
-        }
-
-        /* --- Content --- */
-        .section-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin: 22px 0 10px;
-        }
-
-        .video-wrapper {
-            position: relative;
-            width: 100%;
-            padding-top: 56.25%;
-            border-radius: 10px;
-            overflow: hidden;
-            background: #000;
-            margin-bottom: 8px;
-        }
-
-        .video-wrapper iframe {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
-
-        /* --- Abstract --- */
-        .abstract {
-            font-size: 0.98rem;
-            color: #111827;
-            background: #f9fafb;
-            border-radius: 10px;
-            padding: 14px 14px 16px;
-            border: 1px solid #e5e7eb;
-        }
-
-        .graphical-abstract {
-            margin: 0;
-            padding: 12px;
-            border-radius: 10px;
-            border: 1px solid #e5e7eb;
-            background: #f9fafb;
-            display: flex;
-            justify-content: center;
-        }
-
-        .graphical-abstract img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .bibtex-block {
-            background: #f3f4f6;
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            padding: 14px;
-            font-size: 0.9rem;
-            white-space: pre;
-            color: #374151;
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco,
-                Consolas, "Liberation Mono", "Courier New", monospace;
-        }
-
-
-        .footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 32px;
-            padding-top: 16px;
-            border-top: 1px solid #e5e7eb;
-            font-size: 0.9rem;
-            color: #6b7280;
-        }
-
-        .lab-logo {
-            height: 60px;
-            width: auto;
-        }
-
-        .footer-right p {
-            margin: 2px 0;
-        }
-
-        .footer-right a {
-            color: #2563eb;
-            text-decoration: none;
-        }
-
-        .footer-right a:hover {
-            text-decoration: underline;
-        }
-
-        /* --- Small screens tweaks --- */
-        @media (max-width: 600px) {
-            .card {
-                padding: 20px 16px 24px;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .footer {
-                flex-direction: column;
-                text-align: center;
-                gap: 10px;
-            }
-        }
-    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org/",
+      "@type": "ScholarlyArticle",
+      "name": "Neural NMPC through Signed Distance Field Encoding for Collision Avoidance",
+      "author": [
+        { "@type": "Person", "name": "Martin Jacquet" },
+        { "@type": "Person", "name": "Marvin Harms" }
+        { "@type": "Person", "name": "Kostas Alexis" }
+      ],
+      "url": "https://ntnu-arl.github.io/sdf-nmpc/",
+      "license": "https://creativecommons.org/licenses/by/4.0/"
+    }
+    </script>
 </head>
 
 <body>
