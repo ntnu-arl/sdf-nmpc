@@ -1,5 +1,5 @@
 import numpy as np
-from .config import Config
+from .config import Config, AttrDict
 from .math import euler2rot, euler2quat, quat2euler, quat2rot, yaw2quat, quat2yaw
 
 
@@ -12,11 +12,20 @@ class Ref:
         self.v = [0.,0.,0.]
         self.wz = 0.
 
-        self.Wp = self.cfg.mpc.weights.pos
-        self.Wq = self.cfg.mpc.weights.att
-        self.Wv = self.cfg.mpc.weights.vel
-        self.Ww = self.cfg.mpc.weights.rates
-        self.Wa = self.cfg.mpc.weights.acc
+        self.W_on = AttrDict({
+            'Wp': self.cfg.mpc.weights.set_const_off.pos,
+            'Wq': self.cfg.mpc.weights.set_const_off.att,
+            'Wv': self.cfg.mpc.weights.set_const_off.vel,
+            'Ww': self.cfg.mpc.weights.set_const_off.rates,
+            'Wa': self.cfg.mpc.weights.set_const_off.acc,
+        })
+        self.W_off = AttrDict({
+            'Wp': self.cfg.mpc.weights.set_const_on.pos,
+            'Wq': self.cfg.mpc.weights.set_const_on.att,
+            'Wv': self.cfg.mpc.weights.set_const_on.vel,
+            'Ww': self.cfg.mpc.weights.set_const_on.rates,
+            'Wa': self.cfg.mpc.weights.set_const_on.acc,
+        })
 
     def from_state(self, x):
         self = Ref()

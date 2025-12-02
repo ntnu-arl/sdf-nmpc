@@ -52,6 +52,7 @@ class Quad(BaseModel):
 
 
     def formate_ref(self, ref):
+        W = ref.W_on if p[self.cfg.mpc.p_idx.flag] else ref.W_off
         yr = np.concatenate([ref.p, [0], ref.v, [0, 0, 0], [ref.wz], np.zeros_like(self.extra_W)])
-        W = np.concatenate([ref.Wp, ref.Wq[2:], ref.Wv, [ref.Wa, ref.Wa, ref.Wa], [ref.Ww[2]], self.extra_W])
+        W = np.concatenate([W.Wp, W.Wq[2:], W.Wv, [W.Wa, W.Wa, W.Wa], [W.Ww[2]], self.extra_W])
         return yr, W

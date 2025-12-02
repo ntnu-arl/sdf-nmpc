@@ -34,11 +34,18 @@ nn:
 mpc:
     model: att  # allowed models: acc, att, att_tau, rates, wrench, props
     weights:
-        pos:    [0, 0, 5]  # px, py, pz
-        vel:    [3, 3, 3]  # vx, vy, vz
-        att:    [50, 50, 100]  # roll, pitch, yaw
-        rates:  [0, 0, 3]  # wx, wy, wz
-        acc:    0.05  # typically small value, used to penalize acc or aacc if applicable
+        set_const_off:  # set of weight used when constraints are off
+            pos:    [10, 10, 10]  # px, py, pz
+            vel:    [3, 3, 3]  # vx, vy, vz
+            att:    [50, 50, 50]  # roll, pitch, yaw
+            rates:  [0, 0, 3]  # wx, wy, wz
+            acc:    0.05  # typically small value, used to penalize acc or aacc if applicable
+        set_const_on:  # set of weight used when constraints are on -- set to null if unused
+            pos:    [0, 0, 5]
+            vel:    [3, 3, 3]
+            att:    [50, 50, 10]
+            rates:  [0, 0, 3]
+            acc:    0.05
         slack_df:       [200, 50]  # slack weights (L1, L2) on df constraint
         slack_fov:      [20, 0]  # slack weights (L1, L2) on fov constraint
         slack_brake:    None  # slack weights (L1, L2) on braking dist constraint
