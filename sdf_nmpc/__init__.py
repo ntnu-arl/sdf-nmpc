@@ -14,6 +14,11 @@ def default_data_dir() -> Path:
         return Path(p)
 
 def cache_dir() -> Path:
-    cache_dir = Path(user_cache_dir('sdf_nmpc'))
-    cache_dir.mkdir(parents=True, exist_ok=True)
-    return cache_dir
+    cfg_pkg = files("sdf_nmpc")
+    with as_file(cfg_pkg) as p:
+        return Path(p)
+
+# def cache_dir() -> Path:
+#     cache_dir = Path(user_cache_dir('sdf_nmpc'))
+#     cache_dir.mkdir(parents=True, exist_ok=True)
+#     return cache_dir
