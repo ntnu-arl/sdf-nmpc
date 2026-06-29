@@ -7,7 +7,6 @@ sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 from _paths import path_to_data
 
 
-path_to_data = '/home/sedith/work/colpred_ws/collision_data'
 ratio_test = 0.1
 is_sim = False
 description = 'all real images'
@@ -15,13 +14,8 @@ out_file = '_virtual_lidar_full.hdf5'
 key = 'images'
 in_files = [
     'lidar_isaac.hdf5',
-    'lidar_angelos.hdf5',
+    'lidar_gazebo.hdf5',
     'lidar_real.hdf5',
-    # 'depth_isaac_90.hdf5',
-    # 'depth_isaac_125.hdf5',
-    # 'depth_oracle.hdf5',
-    # 'depth_d455.hdf5',
-    # 'tartanair.hdf5',
 ]
 
 ## check input files

@@ -1,6 +1,6 @@
 # SDF NMPC - Neural MPC for Collision Avoidance
 
-This repository contains the framework using in our paper called: **Neural NMPC through Signed Distance Field Encoding for Collision Avoidance**, published in IJRR.
+This repository contains the framework using in our paper called: **Neural NMPC through Signed Distance Field Encoding for Collision Avoidance**, published in IJRR (DOI: [10.1177/02783649251401223](https://doi.org/10.1177/02783649251401223)).
 
 **Watch our companion video here:**  
 [![Watch the video](https://img.youtube.com/vi/OO2P4N0drGc/0.jpg)](https://www.youtube.com/watch?v=OO2P4N0drGc)
@@ -11,9 +11,10 @@ This repository contains the framework using in our paper called: **Neural NMPC 
 1. [Installation](#installation)
 1. [Repo architecture](#repo-architecture)
 1. [Usage](#usage)
-    1. [Config files](#hands-on-the-config-file)
-    1. [ROS wrapper](#running-the-ros-component)
-1. [Cite, Contact](#cite)
+    1. [Training](#training-and-eval-of-neural-networks)
+    2. [Config files](#hands-on-the-config-file)
+    3. [ROS wrapper](#running-the-ros-component)
+2. [Cite, Contact](#cite)
 
 
 ## Installation
@@ -21,7 +22,7 @@ This repository contains the framework using in our paper called: **Neural NMPC 
 
 ### Setup
 We recommend using a clean python virtual environment.  
-The package was developped and tested using python `3.10`, but there shouldn't be a reason to stick to this version.
+The package was developed and tested using python `3.10`, but there shouldn't be a reason to stick to this version.
 
 Create and activate a virtual environment with:
 ```
@@ -98,7 +99,7 @@ In this case, simply run the same procedure as above.
 
 ## Repo architecture
 
-The repo folder is organized as follow:
+The repo folder is organized as follows:
 
 1. **sdf_nmpc**: Main module folder, including Neural Nets, Casadi+Acados based controller, utils, and functional "API" classes
     1. **config**: Yaml files for missions configurations and robot parameters
@@ -106,6 +107,17 @@ The repo folder is organized as follow:
 1. **scripts**: "Playground" script folder, which shouldn't be used for deployment
 
 ## Usage
+
+### Training and eval of neural networks
+
+The datasets used for training and testing are available here: [temporary onedrive link](https://studntnu-my.sharepoint.com/:f:/g/personal/martjac_ntnu_no/IgAQOSBxnHsqQ5a6uQmmKnoiAYSI_AbHnOaYLp7_ISYtyJw?e=sIZPkA).
+
+Training and evaluation data are expected as HDF5 files containing an images dataset and metadata attributes such as is_depth, is_spherical, is_sim, and dmax.
+A [helper script](https://github.com/ntnu-arl/sdf-nmpc/blob/main/scripts/neural_nets/create_h5.py) combines multiple compatible HDF5 files into one virtual HDF5 dataset, splitting each source file into train/images and test/images using `ratio_test`.
+
+First, update paths in [`_paths.py`](https://github.com/ntnu-arl/sdf-nmpc/blob/main/scripts/neural_nets/_paths.py).
+Then, update `in_files`, `out_file`, and the dataset description in the script before running it.
+The generated file references the original files via HDF5 virtual datasets, so keep the source HDF5 files available at the same relative paths.
 
 ### Simulation environments
 
@@ -115,11 +127,11 @@ For tests in Gazebo, you can find example simulation files [here](https://github
 
 This is a summary description of the config and what the user should know to run the controller for a given system.  
 
-The config **for each given system** is described in a dedicated yaml file. This include physical parameters, sensor descriptions, mpc / neural parameters, as well as mission parameters and flags.
+The config **for each given system** is described in a dedicated yaml file. This includes physical parameters, sensor descriptions, mpc / neural parameters, as well as mission parameters and flags.
 
 Most of the file should stay untouched.
 The parameters are commented and have relevant names.
-Here is a commented sample of a config file, omitting with `...` the only the parts that shouln't be edited:
+Here is a commented sample of a config file, omitting with `...` the only parts that shouldn't be edited:
 
 ```yaml
 name: default  # defines name of generated code
@@ -242,7 +254,7 @@ The interaction with the node is handled via ROS services:
 * `get_yaw_mode`: get the above flag value
 * `set_flag`: set the collision constraint flag value
 * `get_flag`: get the above flag value
-* `stop`: resets the node in its starting state, disables contraints, and discards references
+* `stop`: resets the node in its starting state, disables constraints, and discards references
 
 ## Cite
 
@@ -261,6 +273,6 @@ When using this work in your research, please cite the following publication:
 ## Contact
 
 You can contact us for any question:
-* [Martin Jacquet](mailto:martin.jacquet@ntnu.no) (corresponding author and main developper)
+* [Martin Jacquet](mailto:martin.jacquet@ntnu.no) (corresponding author and main developer)
 * [Marvin Harms](mailto:marvin.c.harms@ntnu.no)
 * [Kostas Alexis](mailto:konstantinos.alexis@ntnu.no)
